@@ -1,0 +1,21 @@
+vim-metarw-simplenote
+=====================
+
+metarw scheme for simplenote
+
+install
+-------
+
+    cd ~/.vim/bundle
+    git clone https://github.com/kana/vim-metarw.git
+    git clone https://github.com/mattn/vim-metarw-simplenote.git
+
+using
+-----
+
+  :Edit sn:`<tab>`
+
+author
+------
+
+  Yasuhiro Matsumoto `<mattn.jp@gmail.com>`
