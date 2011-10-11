@@ -8,6 +8,7 @@ install
 
     cd ~/.vim/bundle
     git clone https://github.com/kana/vim-metarw.git
+    git clone https://github.com/mattn/webapi-vim.git
     git clone https://github.com/mattn/vim-metarw-simplenote.git
 
 using
