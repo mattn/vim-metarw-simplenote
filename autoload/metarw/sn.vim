@@ -37,7 +37,7 @@ function! metarw#sn#read(fakepath)
   endif
   let url = printf('https://simple-note.appspot.com/api/note?key=%s&auth=%s&email=%s', l[1], s:token, s:email)
   let res = webapi#http#get(url)
-  if res.header[0] == 'HTTP/1.1 200 OK'
+  if res.status == '200'
     setlocal noswapfile
     put =iconv(res.content, 'utf-8', &encoding)
     let b:sn_key = l[1]
@@ -58,7 +58,7 @@ function! metarw#sn#write(fakepath, line1, line2, append_p)
   if len(l[1]) > 0 && line('$') == 1 && getline(1) == ''
     let url = printf('https://simple-note.appspot.com/api/delete?key=%s&auth=%s&email=%s', l[1], s:token, s:email)
     let res = webapi#http#get(url)
-    if res.header[0] == 'HTTP/1.1 200 OK'
+    if res.status == '200'
       echomsg 'deleted'
       return ['done', '']
     endif
@@ -69,7 +69,7 @@ function! metarw#sn#write(fakepath, line1, line2, append_p)
       let url = printf('https://simple-note.appspot.com/api/note?auth=%s&email=%s', s:token, s:email)
     endif
     let res = webapi#http#post(url, webapi#base64#b64encode(iconv(join(getline(a:line1, a:line2), "\n"), &encoding, 'utf-8')))
-    if res.header[0] == 'HTTP/1.1 200 OK'
+    if res.status == '200'
       if len(l[1]) == 0
         let key = res.content
         silent! exec 'file '.printf('sn:%s', escape(key, ' \/#%'))
@@ -89,7 +89,7 @@ function! s:authorization()
   let password = inputsecret('password:')
   let creds = webapi#base64#b64encode(printf('email=%s&password=%s', s:email, password))
   let res = webapi#http#post('https://simple-note.appspot.com/api/login', creds)
-  if res.header[0] == 'HTTP/1.1 200 OK'
+  if res.status == '200'
     let s:token = res.content
     return ''
   endif
