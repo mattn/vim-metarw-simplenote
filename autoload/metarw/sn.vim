@@ -85,8 +85,18 @@ function! s:authorization()
   if len(s:token) > 0
     return ''
   endif
-  let s:email = input('email:')
-  let password = inputsecret('password:')
+  if exists("g:SimplenoteUsername")
+    let s:email = g:SimplenoteUsername
+  else
+      let s:email = input('email:')
+  endif
+
+  if exists("g:SimplenotePassword")
+    let password = g:SimplenotePassword
+  else
+    let password = inputsecret('password:')
+  endif
+
   let creds = webapi#base64#b64encode(printf('email=%s&password=%s', s:email, password))
   let res = webapi#http#post('https://simple-note.appspot.com/api/login', creds)
   if res.status == '200'
