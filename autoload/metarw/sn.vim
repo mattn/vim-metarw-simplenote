@@ -33,7 +33,7 @@ function! metarw#sn#read(fakepath)
   endif
   let err = s:authorization()
   if len(err)
-    return ['error', err)
+    return ['error', err]
   endif
   let url = printf('https://simple-note.appspot.com/api/note?key=%s&auth=%s&email=%s', l[1], s:token, s:email)
   let res = webapi#http#get(url)
@@ -53,7 +53,7 @@ function! metarw#sn#write(fakepath, line1, line2, append_p)
   endif
   let err = s:authorization()
   if len(err)
-    return ['error', err)
+    return ['error', err]
   endif
   if len(l[1]) > 0 && line('$') == 1 && getline(1) == ''
     let url = printf('https://simple-note.appspot.com/api/delete?key=%s&auth=%s&email=%s', l[1], s:token, s:email)
@@ -97,7 +97,7 @@ function! s:authorization()
     let password = inputsecret('password:')
   endif
 
-  let creds = webapi#base64#b64encode(printf('email=%s&password=%s', s:email, password))
+  let creds = webapi#base64#b64encode(printf('email=%s&password=%s', s:email, webapi#http#encodeURIComponent(password)))
   let res = webapi#http#post('https://simple-note.appspot.com/api/login', creds)
   if res.status == '200'
     let s:token = res.content
