@@ -23,7 +23,7 @@ function! metarw#sn#complete(arglead, cmdline, cursorpos)
       call add(candidate, printf('sn:%s:%s', escape(node.key, ' \/#%'), escape(s:titles[node.key], ' \/#%')))
     endif
   endfor
-  return [candidate, 'sn:', '']
+  return [candidate, 'sn:', strcharpart(a:arglead, 3)]
 endfunction
 
 function! metarw#sn#read(fakepath)
